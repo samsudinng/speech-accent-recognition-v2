@@ -1,0 +1,14 @@
+{
+"model"         : "AlexNetGAP()", 
+"optimizer"     : "torch.optim.AdamW(model.parameters(), lr = 1e-5)", 
+"loss"          : "torch.nn.CrossEntropyLoss()",
+"scheduler"     : "optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=100, mode='max')"
+"batchsize"     : 3,
+"trainpath"     : "train/path/",
+"devpath"       : "dev/path/",
+"testpath"      : "test/path/",
+"mpath"         : "m/path/",
+"epochs"        : 20,
+"p_specaugment" : 0.6
+
+}
