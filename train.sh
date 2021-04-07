@@ -11,7 +11,7 @@
 VENV="/home/MSAI/sa0002ng/ACCENT/spectrogram/speech_accent_recognition_new/venv/accent_new_venv"
 source $VENV/bin/activate
 
-LOGDIR="train-imagenet"
+LOGDIR="train-logspec-v2"
 LABEL="adamw-196-m5"
 CONFIG="config.json"
 RESUME='' #to resume, set as: --resume path/to/checkpoint.pth

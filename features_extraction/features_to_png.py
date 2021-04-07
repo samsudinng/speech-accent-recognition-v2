@@ -8,6 +8,7 @@ import gc
 import sys
 import argparse
 import os
+import torchvision
 
 def segment_nd_features(data, label, segment_size):
     '''
@@ -111,6 +112,7 @@ def convert_to_train_image_v2(allspec, data_labels, img_dir,segmentsize=300):
     """
     for utt,logspec in tqdm(allspec.items()):
         total_seg = 0
+        logspec_len = logspec.shape[-1]
         
         #get the utterance label
         label = data_labels.loc[utt,'label']        
@@ -134,11 +136,17 @@ def convert_to_train_image_v2(allspec, data_labels, img_dir,segmentsize=300):
                     pil_img.save(f'{img_dir}{label}/{utt}_{idx}.png')
                     total_seg += 1
             
-            #in addition, save the whole utterance
-            pil_img = Image.fromarray(logspec)
-            pil_img.save(f'{img_dir}{label}/{utt}.png')
-            total_seg += 1
-        
+            #in addition, take one extra segment from 1.5sec and 1 center crop
+            if logspec_len > 450:
+                pil_img = Image.fromarray(logspec[:,150:150+segmentsize])
+                pil_img.save(f'{img_dir}{label}/{utt}_x1.png')
+                total_seg += 1
+            
+                pil_img = Image.fromarray(logspec)
+                cropped = torchvision.transforms.functional.center_crop(pil_img, output_size=(200,segmentsize))
+                cropped.save(f'{img_dir}{label}/{utt}_cc.png')
+                total_seg += 1
+                
         data_labels.loc[utt,'num_segments'] = total_seg
 
     return data_labels

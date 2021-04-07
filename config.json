@@ -2,13 +2,13 @@
 "model"         : "AlexNetGAP()", 
 "optimizer"     : "torch.optim.AdamW(model.parameters(), lr = 1e-5)", 
 "loss"          : "torch.nn.CrossEntropyLoss()",
-"scheduler"     : "optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=100, mode='max')"
-"batchsize"     : 3,
-"trainpath"     : "train/path/",
-"devpath"       : "dev/path/",
-"testpath"      : "test/path/",
-"mpath"         : "m/path/",
-"epochs"        : 20,
+"scheduler"     : "optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=100, mode='max')",
+"batchsize"     : 196,
+"trainpath"     : "/storage/sa0002ng/features_logspec200_new/train_img_v2/",
+"devpath"       : "/storage/sa0002ng/features_logspec200_new/dev_img_v2/",
+"testpath"      : "/storage/sa0002ng/features_logspec200_new/test_img_v2/",
+"mpath"         : "features_extraction/metadata/",
+"epochs"        : 30,
 "p_specaugment" : 0.6
 
 }

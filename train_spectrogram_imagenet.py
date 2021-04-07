@@ -96,7 +96,7 @@ def main(args):
     
     
     #Dataset
-    p_augment = config(['p_specaugment'])
+    p_augment = config['p_specaugment']
     imagenet_train_transforms = transforms.Compose([
                                             transforms.Resize(256),
                                             transforms.ToTensor(), 
