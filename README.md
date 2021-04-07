@@ -102,8 +102,6 @@ The configuration file (.json) is in the format of Python dictionary ("key":"val
 
 
 # Metadata path can be kept unchanged as it resides within this repository. 
-#       However, if this config file is not located in the root folder
-#       of this repository, modify the relative/absolute path accordingly.
 
 "mpath"         : "features_extraction/metadata/",
 
