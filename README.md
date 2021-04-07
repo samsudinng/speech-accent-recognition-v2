@@ -71,13 +71,14 @@ By default, tensorboard logging is enabled. The event file can be found in `path
 
 ## Configuration file
 
-The configuration file (.json) is in the format of Python dictionary. The details are as follows.
+The configuration file (.json) is in the format of Python dictionary ("key":"value" pairs). The details are as follows.
 
 ```
 {
 
-# For model, optimizer, loss and learning rate scheduler, the value should be Python code used to instantiate these
-#     classes. In the code, the classes will be instantiated from these values using eval() function. 
+# For model, optimizer, loss and learning rate scheduler, the value should be a string of 
+#     Python code used to instantiate these classes. In the code, the classes will be  
+#     instantiated from these string values using eval() function. 
 
 "model"         : "AlexNetGAP()",
 "optimizer"     : "torch.optim.AdamW(model.parameters(), lr = 1e-5)",
@@ -85,7 +86,8 @@ The configuration file (.json) is in the format of Python dictionary. The detail
 "scheduler"     : "optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=100, mode='max')",
 
 
-# Set batchsize, number of epochs and probability of applying spectral augmentation (frequency/time masking)
+# Set batchsize, number of epochs and probability of applying spectral augmentation 
+#     (frequency/time masking)
 
 "batchsize"     : 196,
 "epochs"        : 30,
@@ -99,8 +101,9 @@ The configuration file (.json) is in the format of Python dictionary. The detail
 "testpath"	: "/storage/sa0002ng/features_logspec200_new/test_img_v2/",
 
 
-# Metadata path can be kept unchanged as it resides within this repository. However, if this config file is not located
-#       in the root folder of this repository, modify the relative/absolute path accordingly.
+# Metadata path can be kept unchanged as it resides within this repository. 
+#       However, if this config file is not located in the root folder
+#       of this repository, modify the relative/absolute path accordingly.
 
 "mpath"         : "features_extraction/metadata/",
 
