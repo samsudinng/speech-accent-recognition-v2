@@ -1,5 +1,5 @@
 # Speech Accent Recognition with Spectrogram Images
-Speech accent recognition with image classification technique
+Classifying accented English speech with image classification techniques
 
 
 ## Requirement: 
@@ -51,7 +51,9 @@ To resume from epoch #8:
 python train_spectrogram_imagenet.py --resume path-to/logs/checkpoint_spectrogram_epoch8.pth --logdir path-to/logs_resumed --config config.json
 ```
 
-### 4. Logging/ Results
+Model training can be configured from `config.json`. Several preset configuration files are provided in config/ folder. For details on the format of configuration file, see the explanation at the end of this readme.
+
+### 4. Logging/checkpoints/results
 
 Checkpoint
 - `path-to/logs/checkpoint_spectrogram_epochX.pth` : checkpoint, only the last two training epochs are kept
@@ -64,3 +66,42 @@ Results log (train/dev/test accuracies, test confusion matrix)
 
 ### 5. Result monitoring (tensorboard)
 By default, tensorboard logging is enabled. The event file can be found in `path-to/logs/`.
+
+
+## Configuration file
+
+The configuration file (.json) is in the format of Python dictionary. The details are as follows.
+
+```
+{
+
+# For model, optimizer, loss and learning rate scheduler, the value should be Python code used to instantiate these
+#     classes. In the code, the classes will be instantiated from these values using eval() function. 
+
+"model"         : "AlexNetGAP()",
+"optimizer"     : "torch.optim.AdamW(model.parameters(), lr = 1e-5)",
+"loss"          : "torch.nn.CrossEntropyLoss()",
+"scheduler"     : "optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=100, mode='max')",
+
+
+# Set batchsize, number of epochs and probability of applying spectral augmentation (frequency/time masking)
+
+"batchsize"     : 196,
+"epochs"        : 30,
+"p_specaugment" : 0.6,
+
+
+# Set path to the train, dev and test input images. 
+
+"trainpath"     : "/storage/sa0002ng/features_logspec200_new/train_img_v2/",
+"devpath"	: "/storage/sa0002ng/features_logspec200_new/dev_img_v2/",
+"testpath"	: "/storage/sa0002ng/features_logspec200_new/test_img_v2/",
+
+
+# Metadata path can be kept unchanged as it resides within this repository. However, if this config file is not located
+#       in the root folder of this repository, modify the relative/absolute path accordingly.
+
+"mpath"         : "features_extraction/metadata/",
+
+}
+```
