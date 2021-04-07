@@ -36,6 +36,7 @@ The following variables should be set in the above scripts accordingly.
 | **features_to_png.sh** | `VENV` | same as above |
 |  | `FPATH` | same as above |
 |  | `TRAINIMGPATH`, `DEVIMGPATH`, `TESTIMGPATH` | path to save the train/dev/test spectrogram images (.png) |
+|  | `VERSION` | `v1` : training spectrogram images are segmented into 3-sec, non-overlapping image segments <br> `v2` : same as `v1` + one 3-sec segment from position 1.5-4.5 sec + one center-cropped 3-sec segment|
 
 ### 3. Train/Dev/Test
 
