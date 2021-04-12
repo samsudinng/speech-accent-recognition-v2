@@ -1,0 +1,16 @@
+{
+"model"         : "VGG19BnGAP()", 
+"feature"       : "wav2vec",
+"optimizer"     : "torch.optim.AdamW(model.parameters(), lr = 1e-5)", 
+"loss"          : "torch.nn.CrossEntropyLoss()",
+"scheduler"     : "optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=100, mode='max')",
+"batchsize"     : 16,
+"trainpath"     : "/storage/sa0002ng/features_wav2vec/train_img/",
+"devpath"       : "/storage/sa0002ng/features_wav2vec/dev_img/",
+"testpath"      : "/storage/sa0002ng/features_wav2vec/test_img/",
+"mpath"         : "features_extraction/metadata/",
+"num_workers"   : 2,
+"epochs"        : 30,
+"p_specaugment" : 0.0
+
+}

@@ -109,6 +109,38 @@ class VGG16BnGAP(nn.Module):
         return out
 
 
+class VGG19BnGAP(nn.Module):
+
+    def __init__(self,num_classes=8, in_ch=3, pretrained=True):
+        super(VGG19BnGAP, self).__init__()
+
+        model = torchvision.models.vgg19_bn(pretrained=pretrained)
+        self.features = model.features
+        self.avgpool  = model.avgpool
+
+        #Global average pooling layer
+        self.classifier = nn.Sequential(
+                                        nn.Conv2d(512, num_classes, kernel_size=(1,1)),
+                                        nn.AvgPool2d(7)
+                                        )
+        init_layer(self.classifier[0])
+
+
+        if in_ch != 3:
+            self.features[0] = nn.Conv2d(in_ch, 64, kernel_size=3, padding=1)
+            init_layer(self.features[0])
+
+
+    def forward(self, x):
+
+        x = self.features(x)
+        x = self.avgpool(x)
+        out = self.classifier(x).squeeze(-1).squeeze(-1)
+
+        return out
+
+
+
 class Resnet34Var(nn.Module):
 
     def __init__(self,num_classes=8, in_ch=3, pretrained=True):
