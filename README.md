@@ -3,13 +3,13 @@ Classifying accented English speech with:
 - Imagenet pre-trained image classifier
 - Finetuning on [Accent160](https://m.datatang.com/shujutang/static/file/AESRC2020.pdf) dataset (speech features are converted to .png images for classification)
 
-**Features extraction: .wav to .png images**
+**Features extraction (.wav to .png images)**
 
 - [x] Log-spectrogram -> 200 x t pixels (t = 10 msec resolution)
 - [x] [wav2vec](https://arxiv.org/abs/1904.05862) -> 512 x t pixels (t = 10 msec resolution)
 - [ ] [wav2vec2](https://arxiv.org/abs/2006.11477)
 
-**Imagenet Accent classifier: pre-trained models from torchvision.models with 8 output classes**
+**Accent classifiers (Imagenet pre-trained models from torchvision.models with 8 output classes)**
 - [x] AlexNetGAP      -> AlexNet with linear classifier replaced by global average pooling (GAP)
 - [x] VGG16BnGAP      -> VGG16 with batchnorm and GAP
 - [x] VGG19BnGAP      -> VGG19 with batchnorm and GAP
@@ -24,15 +24,18 @@ Classifying accented English speech with:
 - [x] Training resume from checkpoint (only the last two training checkpoints are saved)
 - [x] Best model (.pth) selected and saved based on best dev accuracy   
 
-## Requirement: 
+**Requirements** 
 
-- Python 3.7.10
+- [x] Python 3.7.10
+- [x] Required dependencies in `requirements.txt`, can be installed wit `pip`  
+
+---
 
 ## Usage:
 
 ### 1. Clone the repository, create virtual environment and install dependencies
 
-```
+```python
 git clone https://github.com/samsudinng/speech-accent-recognition-v2.git
 cd speech-accent-recognition-v2
 python -m venv env-name
@@ -40,9 +43,10 @@ source env-name/bin/activate
 pip install -r requirements.txt
 ```
 
+
 ### 2. Extract speech feature images
 
-#### To extract log-spectrogram images:
+#### 2.1 To extract log-spectrogram images:
 
 ```
 cd features_extraction
@@ -63,7 +67,7 @@ The following variables should be set in the above scripts accordingly.
 |  | `VERSION` | `v1` : training spectrogram images are segmented into 3-sec, non-overlapping image segments <br> `v2` : same as `v1` + one 3-sec segment from position 1.5-4.5 sec + one center-cropped 3-sec segment|
 
 
-#### To extract wav2vec images:
+#### 2.2 To extract wav2vec images:
 
 ```
 cd features_extraction/wav2vec
@@ -110,6 +114,7 @@ Results log (train/dev/test accuracies, test confusion matrix)
 ### 5. Result monitoring (tensorboard)
 By default, tensorboard logging is enabled. The event file can be found in `path-to/logs/`.
 
+---
 
 ## Configuration file
 
