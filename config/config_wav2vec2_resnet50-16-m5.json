@@ -1,0 +1,16 @@
+{
+"model"         : "Resnet50Var()", 
+"feature"       : "wav2vec2",
+"optimizer"     : "torch.optim.AdamW(model.parameters(), lr = 1e-5)", 
+"loss"          : "torch.nn.CrossEntropyLoss()",
+"scheduler"     : "optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=100, mode='max')",
+"batchsize"     : 16,
+"trainpath"     : "/storage/sa0002ng/features_wav2vec2/train_img/",
+"devpath"       : "/storage/sa0002ng/features_wav2vec2/dev_img/",
+"testpath"      : "/storage/sa0002ng/features_wav2vec2/test_img/",
+"mpath"         : "features_extraction/metadata/",
+"num_workers"   : 2,
+"epochs"        : 100,
+"p_specaugment" : 0.0
+
+}

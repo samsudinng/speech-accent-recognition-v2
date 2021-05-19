@@ -11,7 +11,7 @@ import torchvision.transforms as transforms
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
 from sklearn.metrics import confusion_matrix
-from model_imagenet import AlexNetGAP, VGG16BnGAP, VGG19BnGAP, VGG16GAP, Resnet34Var, Resnet18Var, Resnet50Var
+from model_imagenet import AlexNetGAP, VGG16BnGAP, VGG19BnGAP, VGG16GAP, Resnet34Var, Resnet18Var, Resnet50Var, MobilenetV2Var
 from dataloader import AccentImageTESTDataset
 import os
 import argparse
@@ -97,7 +97,7 @@ def main(args):
     
     #Dataset
     p_augment = config['p_specaugment']
-    
+    min_utt_len=300
     if config['feature'] == 'spectrogram' :
         train_transforms = transforms.Compose([
                                             transforms.Resize(256),
@@ -135,13 +135,30 @@ def main(args):
                                         transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                                               std=[0.229, 0.224, 0.225])
         ])
+    
+    elif config['feature'] == 'wav2vec2':
+        min_utt_len = 224
+        train_transforms = transforms.Compose([
+                                            transforms.ToTensor(), 
+                                            #transforms.RandomChoice([
+                                            #    transforms.RandomApply([audiotransforms.FrequencyMasking(freq_mask_param=50)], p=p_augment),
+                                            #    transforms.RandomApply([audiotransforms.TimeMasking(time_mask_param=100)], p=p_augment)
+                                            #]),
+                                            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                                                  std=[0.229, 0.224, 0.225])
 
-
+        ])
+    
+        test_transforms = transforms.Compose([
+                                        transforms.ToTensor(),
+                                        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                                              std=[0.229, 0.224, 0.225])
+        ])
     
     
     train_ds = ImageFolder(root=trainfpath, transform=train_transforms) 
-    dev_ds = AccentImageTESTDataset(mpath+'devset.csv', devfpath, transform=test_transforms)
-    test_ds = AccentImageTESTDataset(mpath+'testset.csv', testfpath, transform=test_transforms)
+    dev_ds = AccentImageTESTDataset(mpath+'devset.csv', devfpath, transform=test_transforms,min_tlen=min_utt_len)
+    test_ds = AccentImageTESTDataset(mpath+'testset.csv', testfpath, transform=test_transforms,min_tlen=min_utt_len)
 
     #Dataloader
     train_dataloader = torch.utils.data.DataLoader(train_ds, batch_size=batchsize, num_workers=config['num_workers'], shuffle=True)

@@ -1,6 +1,6 @@
 import torchvision
 import torch.nn as nn
-
+import torch
 def init_layer(layer):
     """Initialize a Linear or Convolutional layer. """
     nn.init.xavier_uniform_(layer.weight)
@@ -44,6 +44,71 @@ class AlexNetGAP(nn.Module):
         out = self.classifier(x).squeeze(-1).squeeze(-1)
 
         return out
+
+
+class AlexNetGAPCenterLoss(nn.Module):
+   
+    def __init__(self,num_classes=8, in_ch=3, pretrained=True):
+        super(AlexNetGAPCenterLoss, self).__init__()
+
+        model = torchvision.models.alexnet(pretrained=pretrained)
+        self.features = model.features
+        self.avgpool  = model.avgpool
+        
+        #Global average pooling layer
+        self.classifier = nn.Sequential(
+                                        nn.Conv2d(256, num_classes, kernel_size=(1,1)),
+                                        nn.AvgPool2d(6)
+                                        )
+        init_layer(self.classifier[0])
+
+
+        if in_ch != 3:
+            self.features[0] = nn.Conv2d(in_ch, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2))
+            init_layer(self.features[0])
+        
+    def forward(self, x):
+
+        x = self.features(x)
+        x = self.avgpool(x)
+        out_centerloss = nn.functional.avg_pool2d(x, 6).squeeze(-1).squeeze(-1)
+        out = self.classifier(x).squeeze(-1).squeeze(-1)
+
+        return out, out_centerloss
+
+
+class AlexNetGAPCenterLoss2(nn.Module):
+   
+    def __init__(self,num_classes=8, in_ch=3, pretrained=True):
+        super(AlexNetGAPCenterLoss2, self).__init__()
+
+        model = torchvision.models.alexnet(pretrained=pretrained)
+        self.features = model.features
+        self.avgpool  = model.avgpool
+        
+        #Global average pooling layer
+        self.classmap = nn.Conv2d(256, num_classes, kernel_size=(1,1))
+        self.globalaveragepool = nn.AvgPool2d(6)
+                                        
+        init_layer(self.classmap)
+
+
+        if in_ch != 3:
+            self.features[0] = nn.Conv2d(in_ch, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2))
+            init_layer(self.features[0])
+        
+    def forward(self, x):
+
+        x = self.features(x)
+        x = self.avgpool(x)
+        x =  self.classmap(x)
+        out_centerloss = torch.flatten(x,1)
+        out = self.globalaveragepool(x).squeeze(-1).squeeze(-1)
+
+        return out, out_centerloss
+
+
+
 
 
 class VGG16GAP(nn.Module):
@@ -189,5 +254,21 @@ class Resnet50Var(nn.Module):
                                                         
         return self.model(x)
 
+
+class MobilenetV2Var(nn.Module):
+   
+    def __init__(self,num_classes=8, in_ch=3, pretrained=True):
+        super(MobilenetV2Var, self).__init__()
+
+        model = torchvision.models.mobilenet_v2(pretrained=pretrained)
+        model.classifier[1] = nn.Linear(1280, num_classes) 
+        init_layer(model.classifier[1])
+        
+        self.model = model
+                
+        
+    def forward(self, x):
+
+        return self.model(x)
 
                                                         

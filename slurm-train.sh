@@ -43,18 +43,17 @@ VENV="/home/MSAI/sa0002ng/ACCENT/spectrogram/speech_accent_recognition_new/venv/
 
 
 ### WAV2VEC ###
-
 #1. VGG16BnGAP
 #LOGDIR=train-wav2vec-v2
 #LABEL=vgg16bngap-16-m5
 #CONFIG=config/config_wav2vec_vgg16bngap-16-m5.json
-#RESUMEEPOCH=1
+#RESUMEEPOCH=3
 
 #2. AlexNetGAP
-LOGDIR=train-wav2vec-v2
-LABEL=alexnet-16-m5
-CONFIG=config/config_wav2vec_alexnet-16-m5.json
-RESUMEEPOCH=18
+#LOGDIR=train-wav2vec-v2
+#LABEL=alexnet-16-m5
+#CONFIG=config/config_wav2vec_alexnet-16-m5.json
+#RESUMEEPOCH=18
 
 #3. Resnet18
 #LOGDIR=train-wav2vec-v2
@@ -72,6 +71,40 @@ RESUMEEPOCH=18
 #LOGDIR=train-wav2vec-v2
 #LABEL=vgg19bngap-16-m5
 #CONFIG=config/config_wav2vec_vgg19bngap-16-m5.json
+#RESUMEEPOCH=0
+
+#6. MobilenetV2
+#LOGDIR=train-wav2vec-v2
+#LABEL=mobilenetv2-16-m5
+#CONFIG=config/config_wav2vec_mobilenetv2-16-m5.json
+#RESUMEEPOCH=-1
+
+
+### WAV2VEC2 ###
+#1. AlexNetGAP
+#LOGDIR=train-wav2vec2
+#LABEL=alexnet-16-m5
+#CONFIG=config/config_wav2vec2_alexnet-16-m5.json
+#RESUMEEPOCH=82
+#LOGDIR=train-wav2vec2-xlsr
+#LABEL=alexnet-16-m4-nonorm
+#CONFIG=config/wav2vec2-xlsr-nonorm/config_wav2vec2xlsr_alexnet-16-m4.json
+#RESUMEEPOCH=-1
+
+#2. VGG16BnGAP
+#LOGDIR=train-wav2vec2
+#LABEL=vgg16bngap-16-m5
+#CONFIG=config/config_wav2vec2_vgg16bngap-16-m5.json
+#RESUMEEPOCH=10
+LOGDIR=train-wav2vec2-xlsr-3ch
+LABEL=vgg16bngap-16-m4
+CONFIG=config/wav2vec2-xlsr/config_wav2vec2xlsr-3ch_vgg16bn-16-m4.json
+RESUMEEPOCH=8
+
+#3. Resnet50
+#LOGDIR=train-wav2vec2
+#LABEL=resnet50-16-m5
+#CONFIG=config/config_wav2vec2_resnet50-16-m5.json
 #RESUMEEPOCH=-1
 
 
